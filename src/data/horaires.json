@@ -1,0 +1,48 @@
+{
+  "saison_2026": {
+    "periodes": [
+      {
+        "id": "printemps",
+        "label": "Printemps",
+        "debut": "2026-04-18",
+        "fin": "2026-05-31",
+        "jours_ouverts": ["mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+        "jours_fermes": ["lundi", "mardi"],
+        "horaires_midi": { "ouverture": "12:00", "fermeture": "14:30" },
+        "horaires_soir": { "ouverture": "19:00", "fermeture": "22:30" }
+      },
+      {
+        "id": "ete",
+        "label": "Été",
+        "debut": "2026-06-01",
+        "fin": "2026-08-31",
+        "jours_ouverts": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+        "jours_fermes": [],
+        "horaires_midi": { "ouverture": "12:00", "fermeture": "14:30" },
+        "horaires_soir": { "ouverture": "19:00", "fermeture": "22:30" },
+        "note_special": "Horaires prolongés les soirs de match Coupe du Monde (18h–minuit)"
+      },
+      {
+        "id": "automne",
+        "label": "Automne",
+        "debut": "2026-09-01",
+        "fin": "2026-10-10",
+        "jours_ouverts": ["mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+        "jours_fermes": ["lundi", "mardi"],
+        "horaires_midi": { "ouverture": "12:00", "fermeture": "14:30" },
+        "horaires_soir": { "ouverture": "19:00", "fermeture": "22:00" }
+      }
+    ],
+    "fermeture_annuelle": "2026-10-10",
+    "note_generale": "Ouverture sous réserve de météo favorable. Nous vous recommandons de réserver."
+  },
+  "contact": {
+    "telephone": "",
+    "email": "",
+    "adresse": "Beaulieu-sur-Layon, Maine-et-Loire (49)",
+    "facebook": "https://www.facebook.com/lacabanedessaveurs",
+    "instagram": "",
+    "google_maps_url": "https://maps.google.com/?q=Beaulieu-sur-Layon+49750",
+    "google_maps_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2694.0!2d-0.6!3d47.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zBeaulieu-sur-Layon!5e0!3m2!1sfr!2sfr!4v1"
+  }
+}

@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #819b57;
+  --color-brand-secondary: #F0E9E1;
+  --color-brand-dark: #3F3733;
+  --color-brand-light: #F0E9E1;
+  --color-brand-accent: #f7e88c;
+}
+
+:root {
+  font-family: 'Outfit', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: var(--color-brand-dark);
+  background-color: var(--color-brand-light);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Rotating stamp animation */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+.rotating-stamp {
+  display: inline-block;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F0E9E1;
+}
+::-webkit-scrollbar-thumb {
+  background: #819b57;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b8248;
+}
+
+/* Font Serif helper */
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Selection style */
+::selection {
+  background-color: #819b57;
+  color: white;
+}
+
+/* Background Marquee styles */
+.marquee-bg {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateY(-50%);
+  opacity: 0.18;
+}
+
+.marquee-bg-inner {
+  display: flex;
+  width: max-content;
+  animation: scroll-left-marquee 180s linear infinite;
+}
+
+.marquee-bg-inner span {
+  font-family: 'Playfair Display', serif;
+  font-size: 240px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  color: #ffffff;
+  margin-right: 120px;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+@keyframes scroll-left-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

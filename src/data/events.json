@@ -1,0 +1,53 @@
+{
+  "evenements_reguliers": [
+    {
+      "id": "karaoke",
+      "titre": "Soirée Karaoké",
+      "emoji": "🎤",
+      "frequence": "Vendredi soir",
+      "description": "Chantez sous les étoiles ! Ambiance guinguette garantie, répertoire varié, micro ouvert à tous.",
+      "badge": "Tous les vendredis",
+      "couleur": "terracotta"
+    },
+    {
+      "id": "ferme",
+      "titre": "Ferme Pédagogique",
+      "emoji": "🦆",
+      "frequence": "Tous les jours",
+      "description": "Rencontrez nos canards et petits animaux de ferme. Un espace enclos et sécurisé, idéal pour les familles.",
+      "badge": "Gratuit",
+      "couleur": "vert"
+    },
+    {
+      "id": "concert",
+      "titre": "Concerts Live",
+      "emoji": "🎸",
+      "frequence": "Samedi soir",
+      "description": "Groupes locaux et artistes régionaux. Scène ouverte, ambiance conviviale.",
+      "badge": "Entrée libre",
+      "couleur": "vert"
+    },
+    {
+      "id": "coupe_du_monde",
+      "titre": "Coupe du Monde 2026 ⚽",
+      "emoji": "⚽",
+      "frequence": "Dès le 11 juin",
+      "description": "Tous les matchs en direct sur grand écran extérieur. Menu snacking, bières artisanales, supporters bienvenus !",
+      "badge": "Événement phare",
+      "couleur": "or",
+      "date_debut": "2026-06-11",
+      "date_fin": "2026-07-19"
+    }
+  ],
+  "evenements_a_venir": [
+    {
+      "id": "ouverture",
+      "titre": "Grande Ouverture",
+      "emoji": "🎉",
+      "date": "2026-04-18",
+      "date_affichee": "18 avril 2026",
+      "description": "La Cabane des Saveurs ouvre ses portes ! Venez fêter l'ouverture avec nous, entrée libre.",
+      "badge": "J-Day"
+    }
+  ]
+}

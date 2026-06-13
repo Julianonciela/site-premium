@@ -1,0 +1,105 @@
+{
+  "midi": {
+    "titre": "Menu du Midi",
+    "sous_titre": "Du mercredi au dimanche • 12h00 – 14h30",
+    "formules": [
+      {
+        "nom": "Formule Express",
+        "prix": 15,
+        "description": "Plat du jour + boisson (eau ou soda). Cuisine maison du marché, préparée avec les produits locaux du val de Loire.",
+        "badge": "Rapide"
+      },
+      {
+        "nom": "Formule Terroir",
+        "prix": 22,
+        "description": "Entrée + Plat + Dessert maison. Produits angevins à l'honneur : rillettes de la Cabane, pintade fermière, tarte aux pommes du verger.",
+        "badge": "Populaire"
+      },
+      {
+        "nom": "Formule Guinguette",
+        "prix": 29,
+        "description": "Entrée + Plat + Fromage affiné + Dessert + Verre de Coteaux du Layon. L'expérience complète de la table angevine.",
+        "badge": "Signature"
+      }
+    ],
+    "note": "Produits locaux, cuisine 100 % maison. Plat du jour selon arrivage du marché."
+  },
+  "soir": {
+    "titre": "Menu du Soir",
+    "sous_titre": "Du vendredi au dimanche • 19h00 – 22h30 • Réservation conseillée",
+    "formules": [
+      {
+        "nom": "Planches & Partage",
+        "prix_min": 8,
+        "prix_max": 16,
+        "description": "Planches de charcuteries et fromages angevins à partager, tartines maison, petites assiettes à picorer. Idéal pour l'apéro dînatoire.",
+        "badge": "Convivial"
+      },
+      {
+        "nom": "Menu Bord de Loire",
+        "prix_min": 28,
+        "prix_max": 35,
+        "description": "Carte courte qui change chaque semaine selon les arrivages. Poisson de Loire, viande fermière, légumes du potager, desserts maison.",
+        "badge": "Carte du moment"
+      },
+      {
+        "nom": "Formule Soirée",
+        "prix_min": 20,
+        "prix_max": 25,
+        "description": "Entrée + Plat + Dessert + 1 verre de Coteaux du Layon AOP. Une belle soirée en bonne compagnie.",
+        "badge": "Coup de cœur"
+      }
+    ],
+    "note": "Vins des Coteaux du Layon. Bières artisanales locales. Service jusqu'à 22h30."
+  },
+  "enfants": {
+    "titre": "Menu Enfants",
+    "sous_titre": "Pour les moins de 12 ans — inclut l'accès à la ferme pédagogique",
+    "formules": [
+      {
+        "nom": "P'tit Cabaner",
+        "prix": 10,
+        "description": "Au choix : jambon-purée maison / nuggets-frites / pasta bolognaise + yaourt fermier ou fruit de saison + sirop groseille.",
+        "badge": "Espace jeux inclus"
+      },
+      {
+        "nom": "P'tit Fermier",
+        "prix": 12,
+        "description": "Soupe du jour + plat adapté (sans épices) + compote maison + jus de pomme du verger local. Pour les explorateurs de saveurs.",
+        "badge": "Sain & gourmand"
+      },
+      {
+        "nom": "Goûter Cabane",
+        "prix": 5,
+        "description": "Crêpe maison + boisson chaude ou froide. Disponible de 15h à 17h le week-end (journée continue).",
+        "badge": "Week-end"
+      }
+    ],
+    "note": "Espace clos sécurisé avec canards et petits animaux de ferme. Parents sereins, enfants heureux !"
+  },
+  "coupe_du_monde": {
+    "titre": "Menu Coupe du Monde 2026",
+    "sous_titre": "Dès le 11 juin 2026 • Grand écran extérieur • Ambiance supporters",
+    "formules": [
+      {
+        "nom": "Pack Supporter",
+        "prix": 18,
+        "description": "Burger maison ou hot-dog artisanal + frites + seau de bières (3 pintes) ou 3 sodas. La formule parfaite pour regarder le match.",
+        "badge": "Match Day"
+      },
+      {
+        "nom": "Plateau Guinguette",
+        "prix": 24,
+        "description": "Planches mixtes pour 2 à partager (charcuteries, fromages, rillettes, pain maison) + 1 bouteille de rosé Anjou ou 4 bières artisanales.",
+        "badge": "Pour 2"
+      },
+      {
+        "nom": "Table VIP Supporters",
+        "prix": 35,
+        "description": "Table réservée pour le match + menu 3 plats servi à table + bouteille de vin Anjou Villages offerte. Pour 4 personnes. Sur réservation obligatoire.",
+        "badge": "VIP"
+      }
+    ],
+    "note": "Grand écran extérieur. Ambiance garantie. Places limitées — réservez !"
+  }
+}
