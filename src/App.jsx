@@ -1011,7 +1011,6 @@ function Footer() {
    ═══════════════════════════════════════════ */
 function App() {
   return (
-    <AuthGate>
     <div className="min-h-screen bg-[#F0E9E1] selection:bg-[#819b57] selection:text-white overflow-x-hidden">
       <Header />
       <CookieBanner />
@@ -1026,7 +1025,6 @@ function App() {
       <PreFooterSection />
       <Footer />
     </div>
-    </AuthGate>
   );
 }
 
