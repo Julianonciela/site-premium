@@ -204,6 +204,14 @@ em { font-style: italic; color: var(--aube); }
 .ptable .std { color: var(--text2); }
 .ptable tbody th { font-weight: 500; }
 
+.choices { display: grid; gap: 14px; }
+.choice { min-width: 0; display: grid; gap: 8px; padding: 22px; border-radius: 14px; background: var(--velin-2); border: 1px solid var(--velin-line); }
+.choice__tag { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--or-ink); }
+.choice__price { font-family: var(--serif); font-size: 46px; line-height: 1; font-variant-numeric: tabular-nums; }
+.choice__price span { font-family: var(--sans); font-size: 15px; color: var(--text2); margin-left: 6px; }
+.choice p { color: var(--text2); font-size: 15px; }
+.extra { font-size: 15px; color: var(--text2); }
+.extra b { color: var(--encre); }
 .year { display: grid; gap: 14px; padding: 22px; border-radius: 14px; background: var(--velin-2); }
 .year h3 { font-size: 26px; }
 .year__rows { display: grid; gap: 8px; font-variant-numeric: tabular-nums; }
@@ -233,6 +241,7 @@ em { font-style: italic; color: var(--aube); }
   .page-grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
   .offer { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 34px; align-items: start; }
   .offer__head { grid-column: 1 / -1; }
+  .choices { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
   .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
   .two > * { min-width: 0; }
   .start { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -396,7 +405,7 @@ em { font-style: italic; color: var(--aube); }
     <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><span>VINCI</span></div>
     <div>
       <p class="eyebrow">Prices</p>
-      <h2 class="h2" id="prices" style="margin-top:12px">Clear prices. <em>Paid once.</em></h2>
+      <h2 class="h2" id="prices" style="margin-top:12px">One price. <em>Paid once.</em></h2>
     </div>
     <div class="offer">
       <div class="offer__head">
@@ -414,33 +423,25 @@ em { font-style: italic; color: var(--aube); }
       <ul class="inc">
         <li>5 NFC stickers, programmed to your page</li>
         <li>Works on modern iPhone and Android phones</li>
-        <li>3 months of hosting and updates, free</li>
+        <li>Your page online, with updates, for the first year</li>
       </ul>
     </div>
-    <div class="two">
-      <div class="table-wrap">
-        <table class="ptable">
-          <thead><tr><th scope="col">Also available</th><th scope="col" class="num">Launch</th><th scope="col" class="num">Standard</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Hosting &amp; updates<small>Keeps your page online, edits included. First 3 months free.</small></th><td class="num launch">$15<small>per month</small></td><td class="num std">$20<small>per month</small></td></tr>
-            <tr><th scope="row">Extra stickers<small>Already programmed. $7 each from 10.</small></th><td class="num launch">$8<small>each</small></td><td class="num std">$8<small>each</small></td></tr>
-            <tr><th scope="row">Google Business Profile setup<small>Optional, for a business with a public address.</small></th><td class="num launch">$99<small>once</small></td><td class="num std">$249<small>once</small></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="year">
-        <p class="eyebrow">Your first year, in dollars</p>
-        <h3>The Digital Card + hosting</h3>
-        <div class="year__rows">
-          <div class="year__row"><span>Digital Card (once)</span><span>$289</span></div>
-          <div class="year__row"><span>Hosting, months 1 to 3</span><span>$0</span></div>
-          <div class="year__row"><span>Hosting, months 4 to 12 (9 × $15)</span><span>$135</span></div>
-          <div class="year__total"><span>First year, launch price</span><span>$424</span></div>
-          <div class="year__row"><span>Same at standard price ($490 + 12 × $20)</span><span>$730</span></div>
+    <div>
+      <p class="eyebrow" style="margin-bottom:14px">Then choose how your page stays online</p>
+      <div class="choices">
+        <div class="choice">
+          <div class="choice__tag">Option A · Yearly care</div>
+          <div class="choice__price">$49<span>/ year</span></div>
+          <p>First year included. From the second year, $49 a year keeps your page online with every update included: new photo, new number, new service.</p>
         </div>
-        <div class="year__save">You keep $306 in the first year.</div>
+        <div class="choice">
+          <div class="choice__tag">Option B · Lifetime</div>
+          <div class="choice__price">$0<span>/ year</span></div>
+          <p>Your page stays online for life, with no yearly fee. When you want a change later, each update is $25.</p>
+        </div>
       </div>
     </div>
+    <p class="extra">Need more stickers? <b>$8 each</b>, or $7 each from 10. They arrive programmed to your page.</p>
   </div>
 </section>
 
@@ -470,7 +471,7 @@ em { font-style: italic; color: var(--aube); }
         <div class="contact__row"><span>Mail</span><b style="font-size:19px">800 6th Street #304, Paso Robles, CA 93446</b></div>
       </div>
     </div>
-    <p class="fine">Prices in US dollars. One-time prices are paid once. Hosting is billed monthly after the 3 free months. Launch prices apply to orders placed during our launch period. The example page shown is an illustration.</p>
+    <p class="fine">Prices in US dollars. One-time prices are paid once. Option A is billed once a year from the second year. Option B has no yearly fee. Launch prices apply to orders placed during our launch period. The example page shown is an illustration.</p>
     <p class="motto">Intelligence by hand.</p>
   </div>
 </section>
