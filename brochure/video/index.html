@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080, height=1920">
+<title>VINCI Digital Card – promo video</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* BRIEF: 1080x1920, 24 s, 30 fps, no loop. One clock: render(t). Palette encre/velin/or. One accent: gold. */
+:root { --encre:#1a1714; --encre2:#25211d; --velin:#f5f0e8; --or:#c9a227; --aube:#e8c46a; --brume:#b8b4a6; --text2:#5f5952;
+  --serif:'Cormorant Garamond', Georgia, serif; --sans:'Inter', system-ui, sans-serif; }
+* { box-sizing:border-box; margin:0; }
+html, body { width:1080px; height:1920px; overflow:hidden; background:var(--encre); }
+#stage { position:relative; width:1080px; height:1920px; overflow:hidden; color:var(--velin); font-family:var(--sans);
+  background: radial-gradient(900px 700px at 50% 18%, rgba(201,162,39,0.10), transparent 70%), var(--encre); }
+.abs { position:absolute; }
+.mask { overflow:hidden; display:block; padding-bottom:0.14em; margin-bottom:-0.14em; }
+.mask > span { display:block; will-change:transform; }
+
+/* logo */
+#logoWrap { left:0; top:0; width:1080px; height:1920px; pointer-events:none; }
+#logo { position:absolute; width:380px; height:380px; left:350px; top:640px; color:var(--or); }
+#logo .s { stroke-dasharray:1; stroke-dashoffset:1; }
+#wordmark { position:absolute; left:0; width:1080px; top:1080px; text-align:center; font-family:var(--serif); font-size:96px; letter-spacing:0.32em; text-indent:0.32em; }
+
+/* headline */
+#head { left:96px; right:96px; top:250px; }
+.h { font-family:var(--serif); font-weight:400; font-size:120px; line-height:1.02; }
+.h em { font-style:italic; color:var(--aube); }
+.eyebrow { font-size:30px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--or); }
+
+/* phone */
+#phone { left:270px; top:640px; width:540px; height:1100px; border-radius:76px; padding:20px; background:#0d0b0a;
+  border:2px solid rgba(232,196,106,0.4); box-shadow:0 40px 80px rgba(0,0,0,0.5); z-index:3; transform-origin:50% 50%; }
+#screen { position:relative; width:100%; height:100%; border-radius:58px; overflow:hidden; background:#000; }
+#lock { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(232,196,106,0.5); }
+#page { position:absolute; inset:0; background:var(--velin); color:var(--encre); opacity:0; }
+#scroll { position:absolute; left:0; right:0; top:0; }
+.pg-top { background:linear-gradient(160deg,#2a241e,var(--encre)); padding:80px 30px 92px; text-align:center; color:var(--velin); position:relative; }
+.pg-top::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 70% 20%, rgba(232,196,106,0.3), transparent 55%); }
+.pg-name { font-family:var(--serif); font-size:52px; position:relative; }
+.pg-role { font-size:22px; color:var(--brume); position:relative; margin-top:4px; }
+.pg-av { width:136px; height:136px; border-radius:50%; margin:-68px auto 0; position:relative; z-index:1;
+  background:linear-gradient(140deg,var(--aube),var(--or) 60%,#8f7016); border:6px solid var(--velin);
+  display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:52px; }
+.pg-body { padding:22px 30px; display:flex; flex-direction:column; gap:20px; }
+.acts { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.act { display:flex; flex-direction:column; align-items:center; gap:8px; font-size:18px; color:var(--text2); }
+.act i { width:68px; height:68px; border-radius:50%; background:var(--encre); display:flex; align-items:center; justify-content:center; }
+.act svg { width:30px; height:30px; color:var(--aube); }
+.save { background:var(--or); border-radius:999px; text-align:center; font-weight:600; font-size:24px; padding:18px; }
+.about { font-size:21px; line-height:1.45; color:var(--text2); }
+.about b { display:block; font-family:var(--serif); font-size:30px; color:var(--encre); font-weight:500; margin-bottom:4px; }
+.lnk { border:1.5px solid rgba(26,23,20,0.14); border-radius:20px; padding:18px 22px; font-size:21px; display:flex; justify-content:space-between; }
+.lnk span:last-child { color:#7d6210; }
+
+/* sticker */
+#sticker { left:430px; top:1640px; width:220px; height:220px; border-radius:50%; z-index:2;
+  background:radial-gradient(circle at 35% 30%, #2f2a24, var(--encre) 70%); border:4px solid var(--or);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 24px 50px rgba(0,0,0,0.5); }
+#sticker svg { width:96px; height:96px; color:var(--aube); }
+.ring { position:absolute; left:540px; top:1750px; width:220px; height:220px; margin:-110px 0 0 -110px; border-radius:50%;
+  border:3px solid var(--aube); opacity:0; z-index:1; }
+
+/* price */
+#price { left:96px; right:96px; top:620px; }
+#was { font-size:64px; color:var(--brume); font-variant-numeric:tabular-nums; position:relative; display:inline-block; margin-top:40px; }
+#strike { position:absolute; left:-6px; right:-6px; top:52%; height:5px; background:var(--aube); transform-origin:0 50%; transform:scaleX(0); }
+#now { font-family:var(--serif); font-size:400px; line-height:0.9; color:var(--aube); font-variant-numeric:tabular-nums; margin-top:10px; }
+#now sup { font-size:150px; vertical-align:180px; margin-right:6px; }
+#psub { font-family:var(--serif); font-size:76px; line-height:1.1; margin-top:30px; }
+
+/* end card */
+#end { left:0; width:1080px; top:1270px; text-align:center; }
+#tag { font-family:var(--serif); font-style:italic; font-size:84px; color:var(--aube); }
+#tel { font-size:46px; letter-spacing:0.04em; margin-top:56px; font-variant-numeric:tabular-nums; }
+#area { font-size:26px; color:var(--brume); letter-spacing:0.14em; text-transform:uppercase; margin-top:20px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-call" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></g></symbol>
+    <symbol id="nfc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 8.5a5 5 0 0 1 0 7"/><path d="M9.5 6a9 9 0 0 1 0 12"/><path d="M13 3.5a13 13 0 0 1 0 17"/><circle cx="3.5" cy="12" r="1.2" fill="currentColor"/></g></symbol>
+  </svg>
+
+  <div id="logoWrap" class="abs">
+    <svg id="logo" viewBox="92 92 840 840" aria-hidden="true">
+      <g stroke="currentColor" fill="none" stroke-width="16" transform="translate(0 20)">
+        <circle class="s" pathLength="1" cx="512" cy="492" r="405"/>
+        <rect class="s" pathLength="1" x="192" y="192" width="640" height="640"/>
+        <path class="s" pathLength="1" d="M264 282H318L512 677.82L706 282H760L512 788Z"/>
+        <circle class="s" pathLength="1" cx="512" cy="320" r="40"/>
+        <path class="s" pathLength="1" d="M336.62 320H472M552 320H687.38M356.23 360H667.77"/>
+        <path class="s" pathLength="1" d="M512 360V788"/>
+        <path class="s" pathLength="1" d="M452.29 556L512 440L571.71 556"/>
+        <path class="s" pathLength="1" d="M236.95 269.9L264 282M787.05 269.9L760 282"/>
+        <circle class="s" pathLength="1" cx="226" cy="265" r="12"/>
+        <circle class="s" pathLength="1" cx="798" cy="265" r="12"/>
+      </g>
+    </svg>
+    <div id="wordmark"><span class="mask"><span>VINCI</span></span></div>
+  </div>
+
+  <div id="head" class="abs">
+    <div class="eyebrow mask"><span id="eb">The VINCI Digital Card</span></div>
+    <div class="h" style="margin-top:22px">
+      <span class="mask"><span id="h1a">One tap.</span></span>
+      <span class="mask"><span id="h1b"><em>Your whole story.</em></span></span>
+    </div>
+    <div class="h" style="position:absolute; left:0; top:74px; width:100%">
+      <span class="mask"><span id="h2a">Made by hand.</span></span>
+      <span class="mask"><span id="h2b"><em>Never a template.</em></span></span>
+    </div>
+  </div>
+
+  <div class="ring" id="r1"></div><div class="ring" id="r2"></div><div class="ring" id="r3"></div>
+  <div id="sticker" class="abs"><svg><use href="#nfc"/></svg></div>
+
+  <div id="phone" class="abs">
+    <div id="screen">
+      <div id="lock"><svg width="120" height="120"><use href="#nfc"/></svg></div>
+      <div id="page">
+        <div id="scroll">
+          <div class="pg-top"><div class="pg-name">Elena Ruiz</div><div class="pg-role">Interior designer · Chicago</div></div>
+          <div class="pg-av">ER</div>
+          <div class="pg-body">
+            <div class="acts" data-i="0">
+              <div class="act"><i><svg><use href="#i-call"/></svg></i>Call</div>
+              <div class="act"><i><svg><use href="#i-text"/></svg></i>Text</div>
+              <div class="act"><i><svg><use href="#i-mail"/></svg></i>Email</div>
+              <div class="act"><i><svg><use href="#i-pin"/></svg></i>Visit</div>
+            </div>
+            <div class="save" data-i="1">Save my contact</div>
+            <div class="about" data-i="2"><b>About me</b>Fifteen years designing warm, livable homes. I listen first, then draw.</div>
+            <div class="lnk" data-i="3"><span>My portfolio</span><span>→</span></div>
+            <div class="about" data-i="4"><b>Experience</b>Studio lead since 2016. Residential and boutique hotel projects.</div>
+            <div class="lnk" data-i="5"><span>Download my résumé</span><span>→</span></div>
+            <div class="lnk" data-i="6"><span>Book a consultation</span><span>→</span></div>
+            <div class="lnk" data-i="7"><span>Instagram</span><span>→</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="price" class="abs">
+    <div class="eyebrow mask"><span id="peb">Launch price</span></div>
+    <div><span id="was">Standard $490<span id="strike"></span></span></div>
+    <div class="mask"><span id="now"><sup>$</sup>289</span></div>
+    <div class="mask"><span id="psub">One time.<br><em style="font-style:italic;color:var(--aube)">Page included.</em></span></div>
+  </div>
+
+  <div id="end" class="abs">
+    <div class="mask"><span id="tag">Intelligence by hand.</span></div>
+    <div id="tel">(805) 270-3424</div>
+    <div id="area">Central Coast &amp; Kern County, CA</div>
+  </div>
+</div>
+
+<script>
+// ---- one clock ----
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const p3o = x => 1 - Math.pow(1 - x, 3);
+const p2i = x => x * x;
+const p3io = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const expo = x => x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const sio = x => -(Math.cos(Math.PI * x) - 1) / 2;
+const lerp = (a, b, k) => a + (b - a) * k;
+const $ = id => document.getElementById(id);
+const strokes = [...document.querySelectorAll('#logo .s')];
+const items = [...document.querySelectorAll('#page [data-i]')];
+
+// masked line: in at a (power3.out 0.6 s), out at b (power2.in 0.4 s)
+function line(el, t, a, b) {
+  const i = p3o(seg(t, a, a + 0.6));
+  const o = b == null ? 0 : p2i(seg(t, b, b + 0.4));
+  el.style.transform = `translateY(${(1 - i) * 115 - o * 115}%)`;
+  el.style.visibility = (i === 0 || o === 1) ? 'hidden' : 'visible';
+}
+
+function render(t) {
+  // S1 0–2.6: logo draws, wordmark, then logo moves up and shrinks; S6 20.2+: logo returns
+  strokes.forEach((s, k) => { s.style.strokeDashoffset = 1 - sio(seg(t, 0.1 + k * 0.08, 1.4 + k * 0.08)); });
+  const up = p3io(seg(t, 2.3, 3.2));
+  const back = p3io(seg(t, 20.2, 21.2));
+  const k = up * (1 - back);
+  const logo = $('logo');
+  logo.style.transform = `translate(${lerp(0, -387, k)}px, ${lerp(0, -680, k)}px) scale(${lerp(1, 0.3, k)})`;
+  logo.style.transformOrigin = '50% 50%';
+  line(document.querySelector('#wordmark .mask > span'), t, 1.3, 2.2);
+  if (t > 20.6) line(document.querySelector('#wordmark .mask > span'), t, 20.6, null);
+
+  // S2 headline 1
+  line($('eb'), t, 2.9, 10.8);
+  line($('h1a'), t, 3.1, 10.8);
+  line($('h1b'), t, 6.0, 10.8);
+  // S4 headline 2
+  line($('h2a'), t, 11.2, 15.0);
+  line($('h2b'), t, 11.6, 15.0);
+
+  // phone enters 2.9–3.8, leaves 15.0–15.6
+  const pin = p3o(seg(t, 2.9, 3.9)), pout = p2i(seg(t, 15.0, 15.6));
+  const tap = Math.sin(Math.PI * seg(t, 4.2, 4.7)) * 14; // small press toward sticker
+  const drift = 1 + 0.035 * sio(seg(t, 6.2, 11.0)) - 0.035 * sio(seg(t, 11.0, 14.8));
+  $('phone').style.transform = `translateY(${(1 - pin) * 1300 + pout * 1400 + tap}px) scale(${drift})`;
+  // 'Save my contact' tap at 8.0 s: press + confirm
+  const press = Math.sin(Math.PI * seg(t, 8.0, 8.35));
+  const sv = document.querySelector('.save');
+  sv.dataset.press = press;
+  const ok = seg(t, 8.35, 8.6) * (1 - seg(t, 10.2, 10.5));
+  sv.textContent = ok > 0.5 ? 'Contact saved ✓' : 'Save my contact';
+  sv.style.background = ok > 0.5 ? '#e8c46a' : '';
+
+  // sticker rises 3.6–4.3, leaves 6.0–6.6
+  const sin = p3o(seg(t, 3.5, 4.3)), sout = p2i(seg(t, 6.0, 6.6));
+  $('sticker').style.transform = `translateY(${(1 - sin) * 420 + sout * 420}px)`;
+  ['r1', 'r2', 'r3'].forEach((id, n) => {
+    const r = seg(t, 4.45 + n * 0.25, 5.65 + n * 0.25);
+    const e = expo(r);
+    $(id).style.opacity = r > 0 && r < 1 ? (1 - e) * 0.8 : 0;
+    $(id).style.transform = `scale(${1 + e * 2.2})`;
+  });
+
+  // screen: lock -> page at 4.6
+  const on = seg(t, 4.6, 4.95);
+  $('page').style.opacity = on;
+  items.forEach((el, n) => {
+    const p = p3o(seg(t, 5.0 + n * 0.12, 5.6 + n * 0.12));
+    el.style.opacity = 0.0 + p;
+    el.style.transform = `translateY(${(1 - p) * 24}px)`;
+  });
+  { const sv = document.querySelector('.save'); const pr = Number(sv.dataset.press || 0); sv.style.transform += ` scale(${1 - 0.05 * pr})`; }
+  // S4 scroll the page to show résumé + links (11.6–13.6), drift
+  const sc = p3io(seg(t, 11.8, 13.8));
+  $('scroll').style.transform = `translateY(${-sc * 330}px)`;
+
+  // S5 price 15.6–20.2
+  line($('peb'), t, 15.7, 19.9);
+  const wasIn = p3o(seg(t, 15.8, 16.4)), wasOut = p2i(seg(t, 19.9, 20.3));
+  $('was').style.opacity = wasIn * (1 - wasOut);
+  $('was').style.transform = `translateY(${(1 - wasIn) * 30}px)`;
+  $('strike').style.transform = `scaleX(${p3io(seg(t, 16.6, 17.1))})`;
+  line($('now'), t, 17.1, 19.9);
+  line($('psub'), t, 17.9, 19.9);
+
+  // S6 end card
+  line($('tag'), t, 21.0, null);
+  const te = p3o(seg(t, 21.6, 22.2));
+  $('tel').style.opacity = te; $('tel').style.transform = `translateY(${(1 - te) * 24}px)`;
+  const ae = p3o(seg(t, 21.8, 22.4));
+  $('area').style.opacity = ae; $('area').style.transform = `translateY(${(1 - ae) * 24}px)`;
+}
+window.render = render;
+window.DURATION = 24;
+render(0);
+</script>
+</body>
+</html>
