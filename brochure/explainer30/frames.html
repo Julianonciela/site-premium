@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VINCI 30s – style frames</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&family=Kalam:wght@700&family=Bangers&display=swap">
+<style>
+/* Style frames for the 30 s cut. 1080x1920. Safe zones: top 250, bottom 400, right 150 kept free of key text. */
+:root { --bg:#141210; --line:#efe8dc; --dim:#8f887d; --or:#c9a227; --aube:#e8c46a; --velin:#f5f0e8; --encre:#1a1714; --text2:#5f5952;
+  --serif:'Cormorant Garamond', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --sfx:'Bangers', Impact, sans-serif; }
+* { box-sizing:border-box; margin:0; }
+html, body { width:1080px; height:1920px; overflow:hidden; background:var(--bg); }
+.frame { position:absolute; inset:0; display:none; overflow:hidden;
+  background: radial-gradient(1000px 900px at 50% 45%, rgba(201,162,39,0.10), transparent 70%), var(--bg); color:var(--line); font-family:var(--sans); }
+.frame.on { display:block; }
+.h { position:absolute; left:80px; right:150px; top:280px; font-family:var(--serif); font-size:124px; line-height:1.0; }
+.h em { font-style:italic; color:var(--aube); }
+.eb { position:absolute; left:84px; top:250px; font-size:28px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--or); }
+svg { position:absolute; left:0; top:0; overflow:visible; }
+.ln { fill:none; stroke:var(--line); stroke-linecap:round; stroke-linejoin:round; stroke-width:8; }
+.gold { stroke:var(--aube); }
+.sfx { position:absolute; font-family:var(--sfx); color:var(--aube); letter-spacing:0.04em;
+  text-shadow: 5px 0 0 var(--velin), -5px 0 0 var(--velin), 0 5px 0 var(--velin), 0 -5px 0 var(--velin), 4px 4px 0 var(--velin), -4px -4px 0 var(--velin), 4px -4px 0 var(--velin), -4px 4px 0 var(--velin), 12px 12px 0 #0b0a09; }
+.mark { position:absolute; left:84px; bottom:420px; display:flex; align-items:center; gap:14px; color:var(--dim); font-size:24px; letter-spacing:0.2em; text-transform:uppercase; }
+/* frame 3: POV screen */
+.pov { position:absolute; left:70px; top:520px; width:940px; height:1700px; border-radius:110px; background:#0b0a09; padding:26px; border:3px solid rgba(232,196,106,0.5); box-shadow:0 50px 120px rgba(0,0,0,0.7); }
+.scr { width:100%; height:100%; border-radius:88px; overflow:hidden; background:var(--velin); color:var(--encre); position:relative; }
+.top { background:linear-gradient(160deg,#2a241e,var(--encre)); height:330px; position:relative; text-align:center; padding-top:70px; color:var(--velin); }
+.top::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 70% 20%, rgba(232,196,106,0.3), transparent 55%); }
+.nm { font-family:var(--serif); font-size:84px; position:relative; }
+.rl { font-size:34px; color:#b8b4a6; position:relative; margin-top:6px; }
+.av { width:250px; height:250px; border-radius:50%; margin:-125px auto 0; position:relative; z-index:2; overflow:hidden;
+  background:radial-gradient(circle at 50% 35%, #fff6dc, var(--aube) 70%); border:10px solid var(--velin); box-shadow:0 0 0 5px var(--or); }
+.acts { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:40px 50px 0; }
+.act { display:flex; flex-direction:column; align-items:center; gap:12px; font-size:28px; color:var(--text2); position:relative; }
+.act i { width:120px; height:120px; border-radius:50%; background:var(--encre); display:flex; align-items:center; justify-content:center; }
+.act svg { position:static; width:52px; height:52px; color:var(--aube); }
+.act.web i { background:var(--or); } .act.web svg { color:var(--encre); }
+.tick { position:absolute; top:-6px; right:18px; width:44px; height:44px; border-radius:50%; background:var(--aube); color:var(--encre); font-weight:700; font-size:28px; display:flex; align-items:center; justify-content:center; border:4px solid var(--velin); }
+.save { margin:40px 50px 0; background:var(--or); border-radius:999px; text-align:center; font-weight:600; font-size:38px; padding:30px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0">
+  <symbol id="i-call" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M3 20c1-4 4-6 7-6s4 1 5 2M18 13v6M15 16h6"/></g></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></g></symbol>
+</svg>
+
+<!-- FRAME 1 · HOOK: a paper card gets crumpled -->
+<section class="frame" id="f1">
+  <div class="h">Paper cards<br><em>get lost.</em></div>
+  <svg width="1080" height="1920">
+    <!-- left mitt hand + arm, holding out an empty hand (card just left it) -->
+    <path class="ln" d="M-40 1290 Q140 1240 300 1180"/>
+    <path class="ln" d="M300 1180 q40 -22 70 -6 q22 14 4 34 q-20 18 -64 22"/>
+    <!-- right fist crumpling the card -->
+    <path class="ln" d="M1120 1110 Q920 1060 760 1010"/>
+    <path class="ln" d="M760 1010 q-70 -10 -96 40 q-22 52 30 78 q52 20 92 -16 q26 -30 14 -64 q-10 -30 -40 -38"/>
+    <path class="ln" d="M684 1060 q20 6 38 -4 M690 1088 q22 6 40 -6"/>
+    <!-- crumpled card shards poking out of the fist -->
+    <path class="ln gold" d="M640 1000 l-46 -40 l30 -10 l-8 -40 l40 26 l14 -34 l18 52"/>
+    <path class="ln gold" d="M598 1080 l-40 20 l22 18 l-30 26"/>
+    <!-- crumple motion marks -->
+    <path class="ln" d="M560 930 l-40 -30 M540 990 l-56 -6 M556 1050 l-50 18" style="stroke:var(--dim);stroke-width:6"/>
+    <path class="ln" d="M720 900 l10 -50 M780 920 l30 -40" style="stroke:var(--dim);stroke-width:6"/>
+    <!-- trash bin sketch, waiting -->
+    <path class="ln" d="M420 1460 h220 l-24 210 h-172 z M400 1460 h260 M490 1440 h80" style="stroke:var(--dim)"/>
+    <path class="ln" d="M474 1500 v140 M530 1500 v140 M586 1500 v140" style="stroke:var(--dim);stroke-width:5"/>
+  </svg>
+  <div class="sfx" style="left:620px;top:780px;font-size:120px;transform:rotate(9deg)">CRUNCH!</div>
+</section>
+
+<!-- FRAME 2 · TAP (sketch version; the real clip will sit here) -->
+<section class="frame" id="f2">
+  <div class="h">One<br><em>tap.</em></div>
+  <svg width="1080" height="1920">
+    <!-- gold one-line ripples from the sticker -->
+    <g transform="translate(540 1230)">
+      <circle r="150" class="ln gold" style="stroke-width:6;opacity:0.9"/>
+      <circle r="230" class="ln gold" style="stroke-width:5;opacity:0.55"/>
+      <circle r="320" class="ln gold" style="stroke-width:4;opacity:0.28"/>
+    </g>
+    <!-- speed lines -->
+    <g transform="translate(540 1230)" style="stroke:var(--velin)">
+      <path class="ln" style="stroke-width:6" d="M0 -380 v-90 M270 -270 l60 -60 M-270 -270 l-60 -60 M380 0 h90 M-380 0 h-90 M270 270 l60 60 M-270 270 l-60 60"/>
+    </g>
+    <!-- bottom phone, back facing us, with gold sticker -->
+    <rect x="370" y="1180" width="340" height="600" rx="56" class="ln" style="fill:#1b1815"/>
+    <circle cx="540" cy="1360" r="78" style="fill:#c9a227"/><circle cx="540" cy="1360" r="56" class="ln" style="stroke:#8a6d12;stroke-width:5"/>
+    <!-- holding mitt hand (bottom) -->
+    <path class="ln" d="M330 1960 Q340 1760 380 1640 q-60 10 -70 -50 q-6 -50 50 -60"/>
+    <path class="ln" d="M720 1560 q60 -6 66 40 q4 40 -60 52 M716 1680 q56 -2 58 36 q0 34 -54 44"/>
+    <!-- top phone coming down, edge on the sticker -->
+    <rect x="410" y="760" width="260" height="470" rx="46" class="ln" style="fill:#1b1815"/>
+    <rect x="432" y="782" width="216" height="426" rx="30" style="fill:#e8c46a"/>
+    <path class="ln" d="M650 760 Q760 640 900 560 M650 880 q70 -10 76 34 q6 40 -60 50"/>
+  </svg>
+  <div class="sfx" style="left:600px;top:560px;font-size:170px;transform:rotate(-10deg)">TAP!</div>
+</section>
+
+<!-- FRAME 3 · POV: Elena's digital card fills the screen -->
+<section class="frame" id="f3">
+  <div class="eb">Your digital card</div>
+  <div class="h" style="top:300px;font-size:110px">Everything,<br><em>in one tap.</em></div>
+  <div class="pov"><div class="scr">
+    <div class="top"><div class="nm">Elena Ruiz</div><div class="rl">Real estate agent · Chicago</div></div>
+    <div class="av"><svg id="av" viewBox="-75 -75 150 150" width="250" height="250" style="position:static">
+      <circle cx="0" cy="-14" r="24" class="ln" style="stroke:#1a1714;stroke-width:5"/>
+      <path class="ln" style="stroke:#1a1714;stroke-width:5" d="M-22 -26 Q0 -48 22 -26 M0 -50 a9 9 0 1 0 0.1 0"/>
+      <path class="ln" style="stroke:#1a1714;stroke-width:5" d="M0 10 L0 70 M0 22 L-26 54 M0 22 L-20 2 L-36 -18"/>
+      <path d="M-18 12 Q0 22 18 12 L22 24 Q0 34 -22 24 Z M14 20 l10 30 l10 -6 z" style="fill:#c9a227"/>
+      <ellipse cx="-8" cy="-18" rx="3" ry="3.4" fill="#1a1714"/><ellipse cx="8" cy="-18" rx="3" ry="3.4" fill="#1a1714"/>
+      <path d="M-9 -4 Q0 5 9 -4" class="ln" style="stroke:#1a1714;stroke-width:4"/>
+      <ellipse cx="-15" cy="-6" rx="5" ry="3" fill="rgba(224,106,106,0.6)"/><ellipse cx="15" cy="-6" rx="5" ry="3" fill="rgba(224,106,106,0.6)"/>
+    </svg></div>
+    <div class="acts">
+      <div class="act"><i><svg><use href="#i-call"/></svg></i>Call<span class="tick">✓</span></div>
+      <div class="act"><i><svg><use href="#i-text"/></svg></i>Text<span class="tick">✓</span></div>
+      <div class="act"><i><svg><use href="#i-save"/></svg></i>Save</div>
+      <div class="act web"><i><svg><use href="#i-web"/></svg></i>Website</div>
+    </div>
+    <div class="save">Save my contact</div>
+  </div></div>
+</section>
+
+<script>
+const f = new URLSearchParams(location.search).get('frame') || '1';
+document.getElementById('f' + f).classList.add('on');
+</script>
+</body>
+</html>
