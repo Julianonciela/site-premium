@@ -76,7 +76,19 @@ def ring():  # soft marimba-like two-note ring, twice
         s = note(f); i = int(at * SR); out[i:i + len(s)] += 0.35 * s
     return out
 
-LIB = dict(pop=pop, tap=tap, chime=chime, ding=ding, whoosh=whoosh, swish=swish, fall=fall, draw=draw, ring=ring)
+
+def boing():  # playful spring for the WOW jump
+    n = int(0.45 * SR); t = np.arange(n) / SR
+    f = 220 + 260 * np.exp(-t * 6) * (1 + 0.5 * np.sin(2 * np.pi * 9 * t))
+    return 0.4 * np.sin(2 * np.pi * np.cumsum(f) / SR) * env(n, 0.003, 0.18)
+
+def stamp():  # rubber stamp thud
+    n = int(0.18 * SR); t = np.arange(n) / SR
+    thud = np.sin(2 * np.pi * (90 + 60 * np.exp(-t * 30)) * t) * env(n, 0.001, 0.05)
+    slap = lowpass(rng.standard_normal(n), 0.4) * env(n, 0.0005, 0.015)
+    return 0.9 * thud + 0.5 * slap
+
+LIB = dict(boing=boing, stamp=stamp, pop=pop, tap=tap, chime=chime, ding=ding, whoosh=whoosh, swish=swish, fall=fall, draw=draw, ring=ring)
 
 cues = json.load(open(sys.argv[1]))
 total = np.zeros(int((cues['dur'] + 2) * SR))
