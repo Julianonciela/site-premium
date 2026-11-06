@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VINCI Digital Card – 30 s</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&family=Kalam:wght@700&family=Bangers&display=swap">
+<style>
+/* 30 s master, 1080x1920, 30 fps. Concept: one gold line. Safe zones: top 250, bottom 400, right 150. One clock: render(t). */
+:root { --bg:#141210; --bg2:#1d1a17; --line:#efe8dc; --dim:#8f887d; --or:#c9a227; --aube:#e8c46a; --velin:#f5f0e8; --encre:#1a1714; --ink:#141210; --text2:#5f5952;
+  --serif:'Cormorant Garamond', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --emoji:'Noto Color Emoji'; --hand:'Kalam', cursive; --sfx:'Bangers', Impact, sans-serif; }
+* { box-sizing:border-box; margin:0; }
+html, body { width:1080px; height:1920px; overflow:hidden; background:var(--bg); }
+#stage { position:relative; width:1080px; height:1920px; overflow:hidden; color:var(--line); font-family:var(--sans);
+  background: radial-gradient(1000px 900px at 50% 45%, rgba(201,162,39,0.09), transparent 70%), var(--bg); }
+.abs { position:absolute; }
+.mask { overflow:hidden; display:block; padding-bottom:0.16em; margin-bottom:-0.16em; }
+.mask > span { display:block; }
+.h { font-family:var(--serif); font-weight:400; line-height:1.0; font-size:120px; }
+.h em { font-style:italic; color:var(--aube); }
+.eyebrow { font-size:28px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--or); }
+svg { overflow:visible; }
+.ln { fill:none; stroke:var(--line); stroke-linecap:round; stroke-linejoin:round; }
+.e { font-family:var(--emoji); font-weight:400; }
+.scene { position:absolute; inset:0; opacity:0; }
+#clip { position:absolute; inset:0; width:1080px; height:1920px; object-fit:cover; opacity:0; }
+#flash { position:absolute; inset:0; background:#fff6dc; opacity:0; pointer-events:none; }
+
+.bub { position:absolute; left:0; top:0; opacity:0; transform-origin:50% 100%; }
+.bub svg.bg { position:absolute; left:0; top:0; }
+.bub .tx { position:relative; padding:20px 34px; font-family:var(--hand); font-weight:700; color:var(--ink); white-space:nowrap; line-height:1.15; font-size:40px; }
+.sfxw { position:absolute; left:0; top:0; font-family:var(--sfx); color:var(--aube); letter-spacing:0.04em; opacity:0; white-space:nowrap;
+  text-shadow: 5px 0 0 var(--velin), -5px 0 0 var(--velin), 0 5px 0 var(--velin), 0 -5px 0 var(--velin), 4px 4px 0 var(--velin), -4px -4px 0 var(--velin), 4px -4px 0 var(--velin), -4px 4px 0 var(--velin), 12px 12px 0 #0b0a09; }
+
+/* POV phone */
+#pov { position:absolute; left:70px; top:560px; width:940px; height:1720px; border-radius:110px; background:#0b0a09; padding:26px;
+  border:3px solid rgba(232,196,106,0.5); box-shadow:0 50px 120px rgba(0,0,0,0.7); transform-origin:50% 0; }
+#scr { width:100%; height:100%; border-radius:88px; overflow:hidden; background:var(--velin); color:var(--encre); position:relative; }
+.pg { position:absolute; inset:0; background:var(--velin); }
+.top { background:linear-gradient(160deg,#2a241e,var(--encre)); height:330px; position:relative; text-align:center; padding-top:70px; color:var(--velin); }
+.top::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 70% 20%, rgba(232,196,106,0.3), transparent 55%); }
+.nm { font-family:var(--serif); font-size:84px; position:relative; }
+.rl { font-size:34px; color:#b8b4a6; position:relative; margin-top:6px; }
+.av { width:250px; height:250px; border-radius:50%; margin:-125px auto 0; position:relative; z-index:2; overflow:hidden;
+  background:radial-gradient(circle at 50% 35%, #fff6dc, var(--aube) 70%); border:10px solid var(--velin); box-shadow:0 0 0 5px var(--or); }
+.acts { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:40px 50px 0; }
+.act { display:flex; flex-direction:column; align-items:center; gap:12px; font-size:28px; color:var(--text2); position:relative; }
+.act i { width:120px; height:120px; border-radius:50%; background:var(--encre); display:flex; align-items:center; justify-content:center; }
+.act svg { width:52px; height:52px; color:var(--aube); }
+.act.web i { background:var(--or); } .act.web svg { color:var(--encre); }
+.tick { position:absolute; top:-6px; right:18px; width:46px; height:46px; border-radius:50%; background:var(--aube); color:var(--encre); font-weight:700; font-size:28px; display:flex; align-items:center; justify-content:center; border:4px solid var(--velin); opacity:0; }
+.save { margin:40px 50px 0; background:var(--or); border-radius:999px; text-align:center; font-weight:600; font-size:38px; padding:30px; }
+#web { z-index:5; transform:translateY(105%); box-shadow:0 -24px 50px rgba(0,0,0,0.25); }
+.w-nav { display:flex; justify-content:space-between; padding:70px 56px 10px; font-size:26px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text2); }
+.w-nav b { color:var(--encre); font-weight:600; }
+.w-h1 { font-family:var(--serif); font-size:82px; line-height:1.02; padding:6px 56px 0; }
+.w-h1 em { color:#8a6d12; font-style:italic; }
+.w-sec { font-size:24px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#8a6d12; padding:30px 56px 14px; }
+.w-list { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding:0 56px; }
+.w-list div { border-radius:22px; background:#ece5d7; padding:14px; font-size:24px; color:var(--text2); text-align:center; }
+.w-p { font-size:32px; line-height:1.45; color:var(--text2); padding:0 56px; }
+
+.stamp { position:absolute; font-family:var(--sfx); color:var(--aube); border:6px solid var(--aube); border-radius:16px; padding:8px 22px 2px; letter-spacing:0.08em; opacity:0; background:rgba(20,18,16,0.88); font-size:64px; }
+
+#price { position:absolute; left:90px; top:560px; }
+#was { color:var(--dim); font-size:64px; position:relative; display:inline-block; margin-top:26px; }
+#strike { position:absolute; left:-6px; right:-6px; top:52%; height:6px; background:var(--aube); transform-origin:0 50%; transform:scaleX(0); }
+#now { font-family:var(--serif); font-size:400px; line-height:0.9; color:var(--aube); }
+#now sup { font-size:150px; vertical-align:180px; margin-right:6px; }
+.inc { display:flex; gap:18px; align-items:baseline; font-family:var(--serif); font-size:70px; }
+.inc b { color:var(--aube); font-family:var(--sans); font-weight:600; font-size:52px; }
+#end { position:absolute; left:0; width:1080px; top:1180px; text-align:center; }
+#tag { font-family:var(--serif); font-style:italic; color:var(--aube); font-size:86px; }
+#cta { display:inline-block; margin-top:54px; padding:26px 46px; border:3px solid var(--aube); border-radius:999px; font-size:48px; font-weight:500; letter-spacing:0.02em; }
+#cta b { color:var(--aube); font-weight:600; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-call" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M3 20c1-4 4-6 7-6s4 1 5 2M18 13v6M15 16h6"/></g></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></g></symbol>
+  </svg>
+
+  <!-- S1 hook -->
+  <div class="scene" id="s1"><svg id="g1" width="1080" height="1920"></svg></div>
+  <!-- S2 meeting -->
+  <div class="scene" id="s2"><svg id="g2" width="1080" height="1920"></svg></div>
+  <!-- S3 real clip -->
+  <img id="clip" alt="">
+  <svg id="g3" class="abs" width="1080" height="1920" style="left:0;top:0"></svg>
+  <!-- S4/S5 POV -->
+  <div class="scene" id="s4">
+    <div id="pov"><div id="scr">
+      <div class="pg" id="cardPg">
+        <div class="top"><div class="nm">Elena Ruiz</div><div class="rl">Real estate agent · Chicago</div></div>
+        <div class="av"><svg id="avatar" viewBox="-75 -75 150 150" width="250" height="250"></svg></div>
+        <div class="acts">
+          <div class="act"><i><svg><use href="#i-call"/></svg></i>Call<span class="tick">✓</span></div>
+          <div class="act"><i><svg><use href="#i-text"/></svg></i>Text<span class="tick">✓</span></div>
+          <div class="act"><i><svg><use href="#i-save"/></svg></i>Save<span class="tick">✓</span></div>
+          <div class="act web"><i><svg><use href="#i-web"/></svg></i>Website</div>
+        </div>
+        <div class="save">Save my contact</div>
+      </div>
+      <div class="pg" id="web">
+        <div class="w-nav"><b>Elena Ruiz</b><span>Real estate</span></div>
+        <svg id="house" viewBox="0 0 480 300" width="100%" height="380"></svg>
+        <div class="w-h1">Find your<br><em>next home.</em></div>
+        <div class="w-sec">Listings</div>
+        <div class="w-list"><div><svg class="mini" viewBox="0 0 100 80" width="100%" height="80"></svg>Lakeview</div><div><svg class="mini" viewBox="0 0 100 80" width="100%" height="80"></svg>Wicker Park</div><div><svg class="mini" viewBox="0 0 100 80" width="100%" height="80"></svg>Oak Park</div></div>
+        <div class="w-sec">About me</div>
+        <div class="w-p">12 years helping families find their place in Chicago.</div>
+      </div>
+    </div></div>
+    <svg id="thumbL" class="abs" width="1080" height="1920" style="left:0;top:0"></svg>
+    <div class="stamp" id="stamp">INCLUDED</div>
+  </div>
+  <!-- S6 days later -->
+  <div class="scene" id="s6"><svg id="g6" width="1080" height="1920"></svg></div>
+  <!-- S7 offer -->
+  <div class="scene" id="s7">
+    <div id="price">
+      <div class="eyebrow mask"><span id="peb">Launch offer</span></div>
+      <div><span id="was">Standard $490<span id="strike"></span></span></div>
+      <div class="mask"><span id="now"><sup>$</sup>289</span></div>
+      <div style="margin-top:20px">
+        <div class="mask"><span class="inc"><b>✓</b>Digital card</span></div>
+        <div class="mask"><span class="inc"><b>✓</b>One-page website</span></div>
+        <div class="mask"><span class="inc"><b>✓</b>5 NFC stickers</span></div>
+        <div class="mask"><span class="inc" style="color:var(--aube);font-style:italic">Paid once.</span></div>
+      </div>
+    </div>
+  </div>
+  <!-- S8 end -->
+  <div class="scene" id="s8">
+    <svg id="g8" width="1080" height="1920"></svg>
+    <div id="end">
+      <div class="mask"><span id="word" style="font-family:var(--serif);font-size:96px;letter-spacing:0.32em;text-indent:0.32em">VINCI</span></div>
+      <div class="mask" style="margin-top:20px"><span id="tag">Intelligence by hand.</span></div>
+      <div id="cta">Text us: <b>(805) 270-3424</b></div>
+    </div>
+  </div>
+
+  <div id="heads" class="abs" style="left:80px;top:270px;width:850px"></div>
+  <div id="bubs"></div>
+  <!-- gold line wipe layer -->
+  <svg id="wipe" class="abs" width="1080" height="1920" style="left:0;top:0"><path id="wipeP" class="ln" pathLength="1" stroke-dasharray="1" style="stroke:var(--aube);stroke-width:14"/></svg>
+  <div id="flash"></div>
+</div>
+
+<script>
+const W = 1080, H = 1920, NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const p3o = x => 1 - Math.pow(1 - x, 3);
+const p2i = x => x * x;
+const p3io = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const expo = x => x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const sio = x => -(Math.cos(Math.PI * x) - 1) / 2;
+const back = (x, c1 = 1.4) => { const c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const lerp = (a, b, k) => a + (b - a) * k;
+const D = Math.PI / 180;
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const draw = (p, k) => p.setAttribute('stroke-dashoffset', 1 - k);
+const mkLine = (parent, d, sw = 8, color) => { const p = el('path', { d, class: 'ln', 'stroke-width': sw, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }, parent); if (color) p.style.stroke = color; return p; };
+
+// scene windows (fade in/out around gold-line wipes)
+const SC = { s1: [0, 2.3], s2: [2.3, 5.6], s4: [8.0, 18.6], s6: [18.6, 22.6], s7: [22.6, 27.0], s8: [27.0, 31] };
+const WIPES = [2.3, 5.6, 18.6, 22.6, 27.0];
+function sceneOp(t, a, b) { return (a === 0 ? 1 : seg(t, a - 0.05, a + 0.15)) * (1 - seg(t, b - 0.05, b + 0.15)); }
+
+// ---- headlines ----
+const HEADS = [
+  { a:0.2, b:2.1, eb:'', l1:'Paper cards', l2:'<em>get lost.</em>', l2t:0.5 },
+  { a:5.9, b:7.6, eb:'', l1:'One', l2:'<em>tap.</em>', l2t:6.2 },
+  { a:8.4, b:13.2, eb:'Your digital card', l1:'Everything,', l2:'<em>in one tap.</em>', l2t:8.7 },
+  { a:13.6, b:18.3, eb:'Included', l1:'+ Your own', l2:'<em>website.</em>', l2t:13.9 },
+  { a:18.9, b:22.3, eb:'Days later', l1:'They', l2:'<em>remember you.</em>', l2t:19.2 },
+];
+const heads = $('heads');
+HEADS.forEach(h => {
+  const d = document.createElement('div'); d.className = 'abs'; d.style.left = 0; d.style.top = 0; d.style.width = '100%';
+  d.innerHTML = (h.eb ? `<div class="eyebrow mask"><span>${h.eb}</span></div>` : '<div class="eyebrow mask"><span>&nbsp;</span></div>') +
+    `<div class="h" style="margin-top:16px"><span class="mask"><span>${h.l1}</span></span><span class="mask"><span>${h.l2}</span></span></div>`;
+  heads.appendChild(d); h.el = d.querySelectorAll('.mask > span');
+});
+function line(e, t, a, b) {
+  const i = p3o(seg(t, a, a + 0.45));
+  const o = b == null ? 0 : p2i(seg(t, b, b + 0.3));
+  e.style.transform = `translateY(${(1 - i) * 115 - o * 115}%)`;
+  e.style.visibility = (i === 0 || o === 1) ? 'hidden' : 'visible';
+}
+
+// ---- S1 hook: card in hand -> crumple -> ball arcs into the bin ----
+const g1 = $('g1');
+const s1arm = mkLine(g1, 'M-40 1440 Q120 1400 250 1350');
+const s1hand = mkLine(g1, 'M250 1350 q-40 -30 -14 -70 q28 -30 64 0 M250 1350 q40 20 80 -6');
+const s1card = el('g', {}, g1);
+el('rect', { x: 0, y: 0, width: 300, height: 180, rx: 12, class: 'ln', 'stroke-width': 8, style: 'fill:#1b1815' }, s1card);
+el('path', { d: 'M30 50 H190 M30 90 H150 M30 130 H210', class: 'ln', 'stroke-width': 6 }, s1card);
+el('circle', { cx: 245, cy: 60, r: 22, class: 'ln', 'stroke-width': 6, style: 'stroke:var(--aube)' }, s1card);
+const s1ball = el('g', {}, g1);
+el('path', { d: 'M-46 -10 L-30 -44 L4 -50 L38 -30 L48 6 L30 40 L-6 50 L-40 30 Z M-30 -44 L-6 -8 L38 -30 M-6 -8 L-6 50 M-6 -8 L-46 -10 M-6 -8 L48 6', class: 'ln', 'stroke-width': 7, style: 'stroke:var(--aube)' }, s1ball);
+const s1arc = el('path', { d: 'M420 1240 Q700 820 860 1380', class: 'ln', 'stroke-width': 6, style: 'stroke:var(--dim);stroke-dasharray:4 22' }, g1);
+const s1bin = mkLine(g1, 'M750 1420 h220 l-22 220 h-176 z M730 1420 h260 M820 1398 h80 M810 1460 v140 M860 1460 v140 M910 1460 v140');
+const s1marks = el('path', { d: '', class: 'ln', 'stroke-width': 6, style: 'stroke:var(--dim)' }, g1);
+
+// ---- stick figures (S2, S6) ----
+const MOUTHS = {
+  smile: (d, y) => `M${d * 2} ${y + 12} Q${d * 13} ${y + 20} ${d * 23} ${y + 9}`,
+  grin: (d, y) => `M${d * 0} ${y + 8} Q${d * 13} ${y + 28} ${d * 26} ${y + 6} Z`,
+  open: (d, y) => `M${d * 10} ${y + 12} a6 7 0 1 0 0.1 0`,
+};
+function makeFig(g, hair) {
+  const mk = (sw = 7) => el('path', { class: 'ln', 'stroke-width': sw, pathLength: 1, 'stroke-dasharray': 1 }, g);
+  const F = { head: el('circle', { class: 'ln', 'stroke-width': 7, pathLength: 1, 'stroke-dasharray': 1, r: 36 }, g), hair: mk(6), body: mk(), legL: mk(), legR: mk(), armB: mk(), armF: mk(), brow: mk(5), mouth: mk(5) };
+  F.scarf = hair === 'bun' ? el('path', { style: 'fill:#c9a227' }, g) : null;
+  F.eye = el('circle', { r: 5, style: 'fill:var(--line)' }, g);
+  F.blush = el('ellipse', { rx: 11, ry: 6, style: 'fill:rgba(232,140,110,0.75)' }, g);
+  F.hairStyle = hair; return F;
+}
+function pose(F, g, x, gy, s, dir, o) {
+  g.setAttribute('transform', `translate(${x} ${gy}) scale(${s})`);
+  const bob = (o.bob || 0) - (o.jump || 0);
+  const hy = -252 + bob, sy = -196 + bob, hip = -112 + bob;
+  F.head.setAttribute('cx', 0); F.head.setAttribute('cy', hy);
+  F.body.setAttribute('d', `M0 ${hy + 36} L0 ${hip}`);
+  const lift = Math.min(o.jump || 0, 30);
+  F.legL.setAttribute('d', `M0 ${hip} L-28 ${-lift}`); F.legR.setAttribute('d', `M0 ${hip} L28 ${-lift}`);
+  const arm = (a1, a2, sd) => {
+    const ex = sd * dir * Math.sin(a1 * D) * 54, ey = sy + Math.cos(a1 * D) * 54;
+    const hx = ex + sd * dir * Math.sin((a1 + a2) * D) * 50, hy2 = ey + Math.cos((a1 + a2) * D) * 50;
+    return { d: `M0 ${sy} L${ex} ${ey} L${hx} ${hy2}`, hand: [x + hx * s, gy + hy2 * s] };
+  };
+  const f = arm(o.f1 ?? 12, o.f2 ?? 6, 1), b = arm(14, 4, -1);
+  F.armF.setAttribute('d', f.d); F.armB.setAttribute('d', b.d);
+  const ey = hy - 6;
+  F.eye.setAttribute('cx', dir * 14); F.eye.setAttribute('cy', ey); F.eye.setAttribute('r', o.eyeBig ? 7 : 5);
+  F.brow.setAttribute('d', `M${dir * 6} ${ey - 14 - (o.brow || 0) * 6} L${dir * 22} ${ey - 16 - (o.brow || 0) * 8}`);
+  F.mouth.setAttribute('d', MOUTHS[o.mouth || 'smile'](dir, hy));
+  F.mouth.style.fill = (o.mouth === 'grin' || o.mouth === 'open') && (o.draw ?? 1) >= 1 ? 'var(--line)' : 'none';
+  F.blush.setAttribute('cx', dir * 4); F.blush.setAttribute('cy', hy + 4); F.blush.style.opacity = o.blush || 0;
+  if (F.hairStyle === 'bun') F.hair.setAttribute('d', `M-30 ${hy - 20} Q0 ${hy - 50} 30 ${hy - 20} M${-dir * 10} ${hy - 40} a14 14 0 1 0 0.1 0`);
+  else F.hair.setAttribute('d', `M-24 ${hy - 26} l-8 -22 l16 12 l6 -24 l10 22 l12 -18 l0 26`);
+  if (F.scarf) F.scarf.setAttribute('d', `M-24 ${hy + 34} Q0 ${hy + 50} 24 ${hy + 34} L26 ${hy + 46} Q0 ${hy + 62} -26 ${hy + 46} Z M${dir * 12} ${hy + 48} l${dir * 12} 40 l${dir * 12} -8 z`);
+  const p = o.draw ?? 1, parts = [F.head, F.hair, F.body, F.legL, F.legR, F.armB, F.armF, F.brow, F.mouth];
+  parts.forEach((e, k) => e.setAttribute('stroke-dashoffset', 1 - clamp(p * parts.length - k)));
+  F.eye.style.opacity = clamp(p * parts.length - parts.length + 1);
+  if (F.scarf) F.scarf.style.opacity = clamp(p * parts.length - parts.length + 1);
+  return { hand: f.hand, head: [x, gy + hy * s], headTop: gy + (hy - 66) * s };
+}
+const g2 = $('g2');
+const ground2 = mkLine(g2, 'M60 1520 L1020 1520', 4, 'var(--dim)');
+const FA = makeFig(el('g', {}, g2), 'bun'), FB = makeFig(el('g', {}, g2), 'spiky');
+const gA2 = FA.head.parentNode, gB2 = FB.head.parentNode;
+const sparks = [0, 1, 2].map(() => el('path', { style: 'fill:#e8c46a' }, g2));
+const bang = [0, 1, 2].map(() => el('path', { class: 'ln', 'stroke-width': 6, style: 'stroke:var(--aube)' }, g2));
+const star = (cx, cy, r) => `M${cx} ${cy - r} Q${cx + r * 0.2} ${cy - r * 0.2} ${cx + r} ${cy} Q${cx + r * 0.2} ${cy + r * 0.2} ${cx} ${cy + r} Q${cx - r * 0.2} ${cy + r * 0.2} ${cx - r} ${cy} Q${cx - r * 0.2} ${cy - r * 0.2} ${cx} ${cy - r} Z`;
+
+// ---- S3 overlay on the real clip: gold sketch ripples + speed lines ----
+const g3 = $('g3');
+const TAPC = [560, 1010];
+const rip = [0, 1, 2].map(() => el('circle', { r: 60, class: 'ln', 'stroke-width': 7, style: 'stroke:var(--aube)' }, g3));
+const spd = Array.from({ length: 14 }, () => el('path', { class: 'ln', 'stroke-width': 6, style: 'stroke:var(--velin)' }, g3));
+const clipImg = $('clip');
+const CLIP_N = 72;
+const clipSrc = n => `clip/f${String(n).padStart(3, '0')}.jpg`;
+
+// ---- avatar (animated portrait, Elena with gold scarf) ----
+const av = $('avatar');
+const avs = 'stroke:#1a1714';
+el('circle', { cx: 0, cy: -14, r: 24, class: 'ln', 'stroke-width': 5, style: avs }, av);
+el('path', { d: 'M-22 -26 Q0 -48 22 -26 M0 -50 a9 9 0 1 0 0.1 0', class: 'ln', 'stroke-width': 5, style: avs }, av);
+el('path', { d: 'M0 10 L0 70 M0 22 L26 54', class: 'ln', 'stroke-width': 5, style: avs }, av);
+const avArm = el('path', { class: 'ln', 'stroke-width': 5, style: avs }, av);
+el('path', { d: 'M-18 12 Q0 22 18 12 L22 24 Q0 34 -22 24 Z M-14 20 l-10 30 l-10 -6 z', style: 'fill:#c9a227' }, av);
+const avE1 = el('ellipse', { cx: -8, cy: -18, rx: 3, ry: 3.4, fill: '#1a1714' }, av);
+const avE2 = el('ellipse', { cx: 8, cy: -18, rx: 3, ry: 3.4, fill: '#1a1714' }, av);
+el('path', { d: 'M-9 -4 Q0 5 9 -4', class: 'ln', 'stroke-width': 4, style: avs }, av);
+el('ellipse', { cx: -15, cy: -6, rx: 5, ry: 3, fill: 'rgba(224,106,106,0.6)' }, av);
+el('ellipse', { cx: 15, cy: -6, rx: 5, ry: 3, fill: 'rgba(224,106,106,0.6)' }, av);
+function avatar(t) {
+  const a1 = (-130 + Math.sin(t * 7) * 18) * D, ex = Math.cos(a1) * 26, ey = 22 + Math.sin(a1) * 26, a2 = a1 - 0.5;
+  avArm.setAttribute('d', `M0 22 L${ex} ${ey} L${ex + Math.cos(a2) * 22} ${ey + Math.sin(a2) * 22}`);
+  const blink = (t % 2.4) < 0.12 ? 0.15 : 1; avE1.setAttribute('ry', 3.4 * blink); avE2.setAttribute('ry', 3.4 * blink);
+  av.setAttribute('transform', `translate(0 ${Math.sin(t * 3) * 2})`);
+}
+const ticks = [...document.querySelectorAll('.tick')];
+
+// ---- website drawings ----
+const house = $('house');
+const HOUSE = ['M20 280 H460', 'M110 280 V150 H330 V280', 'M90 160 L220 60 L350 160', 'M280 104 V58 H308 V126', 'M196 280 V200 H244 V280',
+  'M136 180 H176 V220 H136 Z M156 180 V220', 'M264 180 H304 V220 H264 Z M264 200 H304', 'M400 280 V214', 'M400 214 m-36 0 a36 36 0 1 0 72 0 a36 36 0 1 0 -72 0',
+  'M60 70 m-26 0 a26 26 0 1 0 52 0 a26 26 0 1 0 -52 0', 'M370 60 q30 -20 60 0 M380 40 q20 -14 40 0'];
+const housePaths = HOUSE.map((d, i) => el('path', { d, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': 6, style: `stroke:${i === 8 || i === 9 ? '#c9a227' : '#1a1714'}` }, house));
+const miniPaths = [];
+document.querySelectorAll('svg.mini').forEach(s => ['M10 72 H90', 'M24 72 V40 H76 V72', 'M18 44 L50 16 L82 44', 'M44 72 V54 H56 V72'].forEach(d => miniPaths.push(el('path', { d, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, fill: 'none', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', style: 'stroke:#1a1714' }, s))));
+
+// ---- thumb (sketch) for the POV ----
+const tl = $('thumbL');
+const thumb = el('path', { class: 'ln', 'stroke-width': 26, style: 'stroke:#d9cdb8;opacity:0' }, tl);
+const thumbN = el('path', { class: 'ln', 'stroke-width': 5, style: 'stroke:#8f887d;opacity:0' }, tl);
+const tapR = el('circle', { r: 30, class: 'ln', 'stroke-width': 6, style: 'stroke:var(--or);opacity:0' }, tl);
+
+// ---- S6 days later: Elena alone, phone rings ----
+const g6 = $('g6');
+const ground6 = mkLine(g6, 'M60 1520 L1020 1520', 4, 'var(--dim)');
+const FC = makeFig(el('g', {}, g6), 'bun'); const gC = FC.head.parentNode;
+const ph6 = el('g', {}, g6);
+el('rect', { x: -19, y: -34, width: 38, height: 68, rx: 8, class: 'ln', 'stroke-width': 5, style: 'fill:var(--bg)' }, ph6);
+el('circle', { cx: 0, cy: 6, r: 11, style: 'fill:#c9a227' }, ph6);
+const ringW = [0, 1, 2].map(() => el('path', { class: 'ln', 'stroke-width': 6, style: 'stroke:var(--aube)' }, g6));
+const heart = el('path', { style: 'fill:#e06a6a' }, g6);
+
+// ---- S8 logo drawn by the gold line, with quill ----
+const g8 = $('g8');
+const logoG = el('g', { transform: 'translate(540 820) scale(0.5)' }, g8);
+const lg = el('g', { transform: 'translate(-512 -512) translate(0 20)', fill: 'none', 'stroke-width': 16, style: 'stroke:#c9a227' }, logoG);
+const ring = el('circle', { cx: 512, cy: 492, r: 405, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, transform: 'rotate(-90 512 492)' }, lg);
+const inner = ['M192 192H832V832H192Z', 'M264 282H318L512 677.82L706 282H760L512 788Z', 'M512 280a40 40 0 1 0 0.1 0', 'M336.62 320H472M552 320H687.38M356.23 360H667.77', 'M512 360V788', 'M452.29 556L512 440L571.71 556', 'M236.95 269.9L264 282M787.05 269.9L760 282']
+  .map(d => el('path', { d, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }, lg));
+const quill = el('g', {}, logoG);
+el('circle', { r: 12, style: 'fill:#fff6dc' }, quill); el('circle', { r: 24, style: 'fill:rgba(232,196,106,0.35)' }, quill);
+el('path', { d: 'M0 0 L-26 -90 Q-10 -150 30 -190 Q22 -120 6 -60 Z', style: 'fill:#e8c46a;stroke:#c9a227', 'stroke-width': 5 }, quill);
+
+// ---- manga bubbles ----
+const BUBS = [
+  { id:'b1', who:'B', a:2.9, b:4.2, kind:'round', html:'So, what do you do?' },
+  { id:'b2', who:'A', a:3.7, b:5.0, kind:'round', html:'I find people homes! <span class="e">🏡</span>' },
+  { id:'b3', who:'B', a:4.6, b:5.5, kind:'spike', html:'WOW! <span class="e">🤩</span>' },
+  { id:'b4', who:'P', a:19.8, b:21.0, kind:'round', html:'Hi Elena! Saw your page <span class="e">😍</span>' },
+  { id:'b5', who:'A', a:21.0, b:22.4, kind:'round', html:'See you Saturday! <span class="e">🏡</span>' },
+];
+const bubWrap = $('bubs');
+BUBS.forEach(B => { const d = document.createElement('div'); d.className = 'bub'; d.innerHTML = `<svg class="bg"></svg><div class="tx">${B.html}</div>`; bubWrap.appendChild(d); B.el = d; });
+function shapeBubble(B) {
+  const tx = B.el.querySelector('.tx'), w = tx.offsetWidth, h = tx.offsetHeight, svg = B.el.querySelector('svg');
+  svg.setAttribute('width', w); svg.setAttribute('height', h);
+  const left = B.who !== 'B', tailX = left ? w * 0.28 : w * 0.72, tdx = left ? -10 : 10;
+  let d;
+  if (B.kind === 'spike') {
+    const cx = w / 2, cy = h / 2, rx = w / 2 + 40, ry = h / 2 + 36, n = 18; d = '';
+    for (let i = 0; i < n * 2; i++) { const a = i / (n * 2) * Math.PI * 2, out = i % 2 === 0; let px = cx + Math.cos(a) * (out ? rx : rx - 28), py = cy + Math.sin(a) * (out ? ry : ry - 24); if (out && Math.abs(a - 0.95) < 0.18) { px += 20; py += 46; } d += (i ? 'L' : 'M') + px.toFixed(1) + ' ' + py.toFixed(1); }
+    d += 'Z';
+  } else {
+    const r = Math.min(h / 2, 46);
+    d = `M${r} 0 H${w - r} Q${w} 0 ${w} ${r} V${h - r} Q${w} ${h} ${w - r} ${h} H${tailX + 16} L${tailX + tdx * 2} ${h + 40} L${tailX - 16} ${h} H${r} Q0 ${h} 0 ${h - r} V${r} Q0 0 ${r} 0 Z`;
+  }
+  svg.innerHTML = `<path d="${d}" transform="translate(8 8)" style="fill:#c9a227"/><path d="${d}" style="fill:#f5f0e8;stroke:#0b0a09" stroke-width="5" stroke-linejoin="round"/>`;
+  B.w = w; B.h = h;
+}
+function bubble(B, t, anchor) {
+  if (!B.w) shapeBubble(B);
+  const i = back(clamp((t - B.a) / 0.35), 1.8), o = p2i(seg(t, B.b, B.b + 0.2));
+  B.el.style.opacity = t >= B.a && t < B.b + 0.2 ? clamp((t - B.a) / 0.08) * (1 - o) : 0;
+  const left = B.who !== 'B', tailX = left ? B.w * 0.28 : B.w * 0.72;
+  const x = clamp(anchor[0] - tailX + (left ? -30 : 30), 24, 930 - B.w);
+  const y = anchor[1] - B.h - 50 - (B.kind === 'spike' ? 40 : 0);
+  B.el.style.left = x + 'px'; B.el.style.top = y + 'px';
+  B.el.style.transform = `scale(${lerp(0.5, 1, i)}) rotate(${(1 - i) * (left ? -6 : 6)}deg)`;
+}
+// ---- onomatopoeia ----
+const SFXW = [ { txt:'CRUNCH!', a:0.9, b:1.9, rot:9, size:120, x:720, y:880 }, { txt:'TAP!', a:7.8, b:8.2, rot:-10, size:190, x:620, y:640 },
+  { txt:'POP!', a:14.2, b:15.0, rot:8, size:150, x:640, y:820 }, { txt:'RING!', a:19.0, b:19.9, rot:-8, size:130, x:640, y:900 } ];
+SFXW.forEach(s => { const d = document.createElement('div'); d.className = 'sfxw'; d.textContent = s.txt; d.style.fontSize = s.size + 'px'; $('stage').appendChild(d); s.el = d; });
+function sfxWord(s, t) {
+  const i = back(clamp((t - s.a) / 0.28), 2.2), o = seg(t, s.b, s.b + 0.2);
+  s.el.style.opacity = t >= s.a && t < s.b + 0.2 ? 1 - o : 0;
+  s.el.style.left = (s.x - s.el.offsetWidth / 2) + 'px'; s.el.style.top = (s.y - s.el.offsetHeight / 2) + 'px';
+  const shake = s.txt === 'RING!' ? Math.sin(t * 50) * 4 : 0;
+  s.el.style.transform = `rotate(${s.rot + shake}deg) scale(${lerp(0.3, 1, i) + o * 0.15})`;
+}
+
+function render(t) {
+  // scenes
+  for (const id in SC) $(id).style.opacity = sceneOp(t, SC[id][0], SC[id][1]);
+  // gold line wipe at each scene change
+  const wp = $('wipeP'); let wk = 0, wt = -1;
+  WIPES.forEach(w => { if (t > w - 0.35 && t < w + 0.35) { wt = w; wk = (t - (w - 0.35)) / 0.7; } });
+  if (wt > 0) {
+    wp.setAttribute('d', `M-80 ${1500 - (wt * 37 % 300)} C 300 ${900 + (wt * 53 % 400)}, 700 ${1300 - (wt * 29 % 500)}, 1160 ${500 + (wt * 41 % 300)}`);
+    const head = p3io(clamp(wk * 1.6)), tail = p3io(clamp(wk * 1.6 - 0.6));
+    wp.setAttribute('stroke-dasharray', `${Math.max(0.001, head - tail)} 2`); wp.setAttribute('stroke-dashoffset', -tail); wp.style.opacity = 1;
+  } else wp.style.opacity = 0;
+
+  HEADS.forEach(h => { if (h.eb) line(h.el[0], t, h.a, h.b); else h.el[0].style.visibility = 'hidden'; line(h.el[1], t, h.a + 0.1, h.b); line(h.el[2], t, h.l2t, h.b); });
+
+  // ===== S1 hook 0–2.3 =====
+  draw(s1arm, p3o(seg(t, 0, 0.35))); draw(s1hand, p3o(seg(t, 0.1, 0.45))); draw(s1bin, p3o(seg(t, 0.3, 0.9)));
+  const crumple = seg(t, 0.85, 1.05);
+  const fly = p3io(seg(t, 1.05, 1.9));
+  s1card.setAttribute('transform', `translate(250 1260) rotate(-8) scale(${1 - crumple * 0.7})`);
+  s1card.style.opacity = crumple < 1 ? 1 : 0;
+  const bx = (1 - fly) * (1 - fly) * 420 + 2 * (1 - fly) * fly * 700 + fly * fly * 860;
+  const by = (1 - fly) * (1 - fly) * 1240 + 2 * (1 - fly) * fly * 820 + fly * fly * 1440;
+  s1ball.setAttribute('transform', `translate(${bx} ${by}) rotate(${fly * 400}) scale(${crumple >= 1 ? 1 - fly * 0.35 : 0})`);
+  s1ball.style.opacity = crumple >= 1 && fly < 1 ? 1 : 0;
+  s1arc.style.opacity = 0.6 * seg(t, 1.0, 1.2) * (1 - seg(t, 1.9, 2.1));
+  s1marks.setAttribute('d', t > 0.9 && t < 1.4 ? 'M520 1180 l-40 -30 M500 1240 l-56 -6 M520 1300 l-50 18 M640 1150 l14 -50' : '');
+
+  // ===== S2 meeting 2.3–5.6 =====
+  draw(ground2, p3io(seg(t, 2.3, 2.8)));
+  let aM = 'smile', aF1 = 12, aF2 = 6, bM = 'smile', bBrow = 0, bBlush = 0, bEye = false;
+  if (t > 3.7 && t < 5.0) { aM = 'grin'; aF1 = 120 + Math.sin(t * 9) * 10; aF2 = 40; }
+  if (t > 2.9 && t < 4.2) bM = 'open';
+  if (t > 4.6) { bM = 'grin'; bBrow = 1.4; bBlush = 1; bEye = true; }
+  const bJump = t > 4.6 && t < 5.2 ? Math.sin(seg(t, 4.6, 5.2) * Math.PI) * 30 : 0;
+  const A = pose(FA, gA2, 290, 1520, 1.9, 1, { draw: seg(t, 2.35, 2.9), bob: Math.sin(t * 2.2) * 2, mouth: aM, f1: aF1, f2: aF2 });
+  const B = pose(FB, gB2, 790, 1520, 1.9, -1, { draw: seg(t, 2.5, 3.05), bob: Math.sin((t + 1.3) * 2.2) * 2, mouth: bM, brow: bBrow, blush: bBlush, eyeBig: bEye, jump: bJump });
+  sparks.forEach((p, i) => { const k = clamp((t - 4.65 - i * 0.1) / 0.25) * (1 - seg(t, 5.3, 5.5)); const a = (-160 + i * 70) * D; p.setAttribute('d', k > 0 ? star(B.head[0] + Math.cos(a) * 140, B.head[1] + Math.sin(a) * 140, 26 * back(k)) : ''); });
+  bang.forEach((p, i) => { const k = back(clamp((t - 4.6) / 0.25)) * (1 - seg(t, 5.3, 5.5)); const a = (-120 + i * 30) * D; p.setAttribute('d', k > 0 ? `M${B.head[0] + Math.cos(a) * 95} ${B.head[1] + Math.sin(a) * 95} L${B.head[0] + Math.cos(a) * (95 + 50 * k)} ${B.head[1] + Math.sin(a) * (95 + 50 * k)}` : ''); });
+
+  // ===== S3 real clip 5.6–8.0 =====
+  const cOn = t >= 5.6 && t < 8.05;
+  const cf = clamp(Math.floor((t - 5.6) * 30) + 1, 1, CLIP_N);
+  if (cOn) { const src = clipSrc(cf); if (clipImg.getAttribute('src') !== src) clipImg.setAttribute('src', src); }
+  clipImg.style.opacity = cOn ? seg(t, 5.55, 5.75) : 0;
+  clipImg.style.transform = `scale(${1.04 + seg(t, 5.6, 8.0) * 0.06})`;
+  rip.forEach((r, n) => { const p = seg(t, 7.8 + n * 0.12, 8.6 + n * 0.12), e = expo(p); r.setAttribute('cx', TAPC[0]); r.setAttribute('cy', TAPC[1]); r.setAttribute('r', 60 + e * 420); r.style.opacity = p > 0 && p < 1 ? (1 - e) : 0; });
+  spd.forEach((p, n) => { const k = seg(t, 7.8, 7.95) * (1 - seg(t, 8.2, 8.45)); const a = n / spd.length * Math.PI * 2 + 0.2, r1 = 260 + (n % 3) * 30, r2 = r1 + 140 * k; p.setAttribute('d', k > 0 ? `M${TAPC[0] + Math.cos(a) * r1} ${TAPC[1] + Math.sin(a) * r1} L${TAPC[0] + Math.cos(a) * r2} ${TAPC[1] + Math.sin(a) * r2}` : ''); });
+  $('flash').style.opacity = 0.32 * seg(t, 7.8, 7.84) * (1 - seg(t, 7.84, 8.1));
+
+  // ===== S4/S5 POV 8.0–18.6 =====
+  const pov = $('pov');
+  const pin = p3o(seg(t, 8.0, 8.6));
+  pov.style.transform = `translateY(${(1 - pin) * 300}px) scale(${lerp(0.92, 1, pin)})`;
+  avatar(t);
+  ticks.forEach((k, n) => { const p = back(clamp((t - (10.0 + n * 0.5)) / 0.3), 2); k.style.opacity = t > 10.0 + n * 0.5 ? 1 : 0; k.style.transform = `scale(${p})`; });
+  const save = document.querySelector('#cardPg .save');
+  const saved = t > 11.9; save.textContent = saved ? 'Contact saved ✓' : 'Save my contact'; save.style.background = saved ? 'var(--aube)' : '';
+  // website pop-up
+  const wpk = back(clamp((t - 14.2) / 0.55), 1.1);
+  $('web').style.transform = `translateY(${(1 - wpk) * 105}%)`;
+  housePaths.forEach((p, k) => draw(p, p3io(seg(t, 14.6 + k * 0.1, 15.2 + k * 0.1))));
+  miniPaths.forEach((p, k) => draw(p, p3io(seg(t, 15.8 + k * 0.04, 16.3 + k * 0.04))));
+  // thumb: save at 11.6, website at 13.9
+  const rest = [1010, 1880], saveP = [540, 1290], webP = [870, 1110];
+  const toS = p3io(seg(t, 11.2, 11.7)) * (1 - p3io(seg(t, 12.1, 12.6)));
+  const toW = p3io(seg(t, 13.3, 13.9)) * (1 - p3io(seg(t, 14.3, 14.9)));
+  const tip = [lerp(lerp(rest[0], saveP[0], toS), webP[0], toW), lerp(lerp(rest[1], saveP[1], toS), webP[1], toW)];
+  const thOn = (toS > 0.01 || toW > 0.01) ? 1 : 0;
+  thumb.setAttribute('d', `M1160 2000 Q${(1160 + tip[0]) / 2 + 60} ${(2000 + tip[1]) / 2 + 80} ${tip[0]} ${tip[1]}`);
+  thumbN.setAttribute('d', `M${tip[0] - 10} ${tip[1] + 6} q12 -16 26 -2`);
+  thumb.style.opacity = thOn * 0.95; thumbN.style.opacity = thOn;
+  const tp = seg(t, 11.7, 12.2) || seg(t, 13.9, 14.4); const tpp = t < 13 ? saveP : webP;
+  tapR.setAttribute('cx', tpp[0]); tapR.setAttribute('cy', tpp[1]); tapR.setAttribute('r', 30 + expo(tp) * 70); tapR.style.opacity = tp > 0 && tp < 1 ? 1 - tp : 0;
+  const st = $('stamp'), sk = clamp((t - 16.0) / 0.22);
+  st.style.left = '600px'; st.style.top = '1180px';
+  st.style.opacity = t >= 16.0 ? Math.min(1, sk * 3) : 0; st.style.transform = `rotate(-9deg) scale(${lerp(1.9, 1, p3o(sk))})`;
+
+  // ===== S6 days later 18.6–22.6 =====
+  draw(ground6, p3io(seg(t, 18.6, 19.0)));
+  let cM = 'smile', cBrow = 0, cBlush = 0;
+  if (t > 19.0 && t < 19.9) { cM = 'open'; cBrow = 1; }
+  if (t > 21.0) { cM = 'grin'; cBlush = 1; }
+  const cJump = t > 21.0 && t < 21.6 ? Math.sin(seg(t, 21.0, 21.6) * Math.PI) * 28 : 0;
+  const C = pose(FC, gC, 400, 1520, 2.1, 1, { draw: seg(t, 18.65, 19.0), bob: Math.sin(t * 2.2) * 2, mouth: cM, brow: cBrow, blush: cBlush, f1: 24, f2: 98, jump: cJump });
+  const shk = t > 19.0 && t < 19.9 ? Math.sin(t * 70) * 6 : 0;
+  ph6.setAttribute('transform', `translate(${C.hand[0] + 14 + shk} ${C.hand[1] - 22}) scale(2.1)`);
+  ph6.style.opacity = seg(t, 18.8, 19.0);
+  ringW.forEach((p, i) => { const k = t > 19.0 && t < 19.9 ? 1 : 0; const r = 70 + i * 26; const cx = C.hand[0] + 14, cy = C.hand[1] - 22; p.setAttribute('d', k ? `M${cx + r * Math.cos(-0.7)} ${cy + r * Math.sin(-0.7)} A${r} ${r} 0 0 1 ${cx + r * Math.cos(0.1)} ${cy + r * Math.sin(0.1)}` : ''); });
+  const hk = back(clamp((t - 21.3) / 0.3)) * (1 - seg(t, 22.2, 22.4)); const hx = C.head[0] + 150, hy = C.head[1] - 120 - hk * 20, hr = 30 * hk;
+  heart.setAttribute('d', hk > 0 ? `M${hx} ${hy + hr} C${hx - hr * 2} ${hy - hr * 0.4} ${hx - hr * 0.6} ${hy - hr * 1.6} ${hx} ${hy - hr * 0.5} C${hx + hr * 0.6} ${hy - hr * 1.6} ${hx + hr * 2} ${hy - hr * 0.4} ${hx} ${hy + hr} Z` : '');
+
+  // bubbles
+  BUBS.forEach(Bb => {
+    let anc;
+    if (Bb.who === 'A') anc = t > 18 ? [C.head[0], C.headTop] : [A.head[0], A.headTop];
+    else if (Bb.who === 'B') anc = [B.head[0], B.headTop];
+    else anc = [600, 840];
+    bubble(Bb, t, anc);
+  });
+  SFXW.forEach(s => sfxWord(s, t));
+
+  // ===== S7 offer 22.6–27 =====
+  line($('peb'), t, 22.8, 26.8);
+  const wi = p3o(seg(t, 22.9, 23.3)); $('was').style.opacity = wi * (1 - seg(t, 26.8, 27)); $('was').style.transform = `translateY(${(1 - wi) * 30}px)`;
+  $('strike').style.transform = `scaleX(${p3io(seg(t, 23.4, 23.8))})`;
+  line($('now'), t, 23.8, 26.8);
+  document.querySelectorAll('#price .inc').forEach((e, n) => line(e, t, 24.5 + n * 0.3, 26.8));
+
+  // ===== S8 end 27–30: logo by the gold line =====
+  const rp = sio(seg(t, 27.1, 28.1));
+  draw(ring, rp);
+  const qa = -Math.PI / 2 + rp * Math.PI * 2;
+  quill.setAttribute('transform', `translate(${Math.cos(qa) * 405} ${Math.sin(qa) * 405}) rotate(${rp * 40 - 20}) scale(2.4)`);
+  quill.style.opacity = seg(t, 27.05, 27.2) * (1 - seg(t, 28.1, 28.4));
+  inner.forEach((p, k) => draw(p, p3io(seg(t, 28.1 + k * 0.06, 28.8 + k * 0.06))));
+  line($('word'), t, 28.4, null); line($('tag'), t, 28.7, null);
+  const ce = p3o(seg(t, 29.0, 29.4)); $('cta').style.opacity = ce; $('cta').style.transform = `translateY(${(1 - ce) * 24}px)`;
+}
+window.render = render;
+window.DURATION = 30;
+window.SFX = [
+  ['swish', 0.2], ['crunch', 0.85], ['whoosh', 1.1], ['thud', 1.9], ['draw', 2.35], ['pop', 2.9], ['pop', 3.7], ['boing', 4.6],
+  ['whoosh', 5.5], ['tap', 7.8], ['chime', 7.82], ['whoosh', 8.0], ['tic', 10.0], ['tic', 10.5], ['tic', 11.0], ['tap', 11.7], ['ding', 11.9],
+  ['tap', 13.9], ['pop', 14.2], ['whoosh', 14.25], ['draw', 14.6], ['stamp', 16.0], ['whoosh', 18.5], ['ring', 19.0], ['pop', 19.8], ['pop', 21.0], ['ding', 21.3],
+  ['whoosh', 22.5], ['swish', 23.4], ['ding', 23.85], ['whoosh', 26.9], ['chime', 28.7]
+];
+render(0);
+</script>
+</body>
+</html>
