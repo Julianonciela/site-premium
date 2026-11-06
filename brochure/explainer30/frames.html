@@ -48,28 +48,33 @@ svg { position:absolute; left:0; top:0; overflow:visible; }
   <symbol id="i-web" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></g></symbol>
 </svg>
 
-<!-- FRAME 1 · HOOK: a paper card gets crumpled -->
+<!-- FRAME 1 · HOOK: a paper card is handed over... and lands in the bin -->
 <section class="frame" id="f1">
   <div class="h">Paper cards<br><em>get lost.</em></div>
   <svg width="1080" height="1920">
-    <!-- left mitt hand + arm, holding out an empty hand (card just left it) -->
-    <path class="ln" d="M-40 1290 Q140 1240 300 1180"/>
-    <path class="ln" d="M300 1180 q40 -22 70 -6 q22 14 4 34 q-20 18 -64 22"/>
-    <!-- right fist crumpling the card -->
-    <path class="ln" d="M1120 1110 Q920 1060 760 1010"/>
-    <path class="ln" d="M760 1010 q-70 -10 -96 40 q-22 52 30 78 q52 20 92 -16 q26 -30 14 -64 q-10 -30 -40 -38"/>
-    <path class="ln" d="M684 1060 q20 6 38 -4 M690 1088 q22 6 40 -6"/>
-    <!-- crumpled card shards poking out of the fist -->
-    <path class="ln gold" d="M640 1000 l-46 -40 l30 -10 l-8 -40 l40 26 l14 -34 l18 52"/>
-    <path class="ln gold" d="M598 1080 l-40 20 l22 18 l-30 26"/>
-    <!-- crumple motion marks -->
-    <path class="ln" d="M560 930 l-40 -30 M540 990 l-56 -6 M556 1050 l-50 18" style="stroke:var(--dim);stroke-width:6"/>
-    <path class="ln" d="M720 900 l10 -50 M780 920 l30 -40" style="stroke:var(--dim);stroke-width:6"/>
-    <!-- trash bin sketch, waiting -->
-    <path class="ln" d="M420 1460 h220 l-24 210 h-172 z M400 1460 h260 M490 1440 h80" style="stroke:var(--dim)"/>
-    <path class="ln" d="M474 1500 v140 M530 1500 v140 M586 1500 v140" style="stroke:var(--dim);stroke-width:5"/>
+    <!-- hand (mitt) holding a clear paper card, lower left -->
+    <path class="ln" d="M-40 1420 Q120 1380 250 1330"/>
+    <g transform="translate(250 1240) rotate(-8)">
+      <rect x="0" y="0" width="300" height="180" rx="12" class="ln" style="fill:#1b1815"/>
+      <path class="ln" style="stroke-width:6" d="M30 50 H190 M30 90 H150 M30 130 H210"/>
+      <circle cx="245" cy="60" r="22" class="ln gold" style="stroke-width:6"/>
+    </g>
+    <path class="ln" d="M250 1330 q-40 -30 -14 -70 q28 -30 64 0 M250 1330 q40 20 80 -6"/>
+    <!-- dotted arc: the card's future, flying to the bin -->
+    <path class="ln" style="stroke:var(--dim);stroke-width:6;stroke-dasharray:4 22" d="M560 1210 Q760 900 860 1360"/>
+    <!-- crumpled paper ball mid-air -->
+    <g transform="translate(790 1010)">
+      <path class="ln gold" d="M-46 -10 L-30 -44 L4 -50 L38 -30 L48 6 L30 40 L-6 50 L-40 30 Z"/>
+      <path class="ln gold" style="stroke-width:5" d="M-30 -44 L-6 -8 L38 -30 M-6 -8 L-6 50 M-6 -8 L-46 -10 M-6 -8 L48 6"/>
+    </g>
+    <path class="ln" style="stroke:var(--dim);stroke-width:6" d="M700 1040 l-50 10 M710 990 l-46 -18 M740 950 l-26 -40"/>
+    <!-- trash bin, lower right -->
+    <g transform="translate(860 1400)">
+      <path class="ln" d="M-110 0 h220 l-22 220 h-176 z M-130 0 h260 M-40 -22 h80"/>
+      <path class="ln" style="stroke-width:6" d="M-50 40 v140 M0 40 v140 M50 40 v140"/>
+    </g>
   </svg>
-  <div class="sfx" style="left:620px;top:780px;font-size:120px;transform:rotate(9deg)">CRUNCH!</div>
+  <div class="sfx" style="left:560px;top:800px;font-size:110px;transform:rotate(9deg)">CRUNCH!</div>
 </section>
 
 <!-- FRAME 2 · TAP (sketch version; the real clip will sit here) -->
